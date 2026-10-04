@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Викторина — Интеллектуальные игры</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen text-white" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);">
+
+<!-- ==================== ЭКРАН 1: ГЛАВНОЕ МЕНЮ ==================== -->
+<section id="screen-menu" class="screen active min-h-screen flex-col items-center justify-center px-4 py-10">
+  <header class="text-center mb-12">
+    <div class="text-6xl mb-4">🎓</div>
+    <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-3">
+      Интеллектуальные <span class="text-gold">викторины</span>
+    </h1>
+    <p class="text-slate-300 text-lg">Выберите игру и проверьте свои знания!</p>
+  </header>
+
+  <div class="grid md:grid-cols-2 gap-8 w-full max-w-4xl">
+    <!-- Игра 1 -->
+    <button id="btn-game-facts" class="game-card rounded-3xl p-8 text-left"
+            style="background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);">
+      <div class="text-5xl mb-5">🕵️</div>
+      <h2 class="text-2xl font-extrabold mb-3">Интересные факты<br>о преподавателях</h2>
+      <p class="text-purple-100/90 text-sm leading-relaxed mb-6">
+        Угадайте, какому преподавателю принадлежит необычный факт. Доступны 1 и 2 смены!
+      </p>
+      <span class="inline-flex items-center gap-2 font-bold text-sm bg-white/15 rounded-full px-5 py-2.5">
+        Играть <i class="fa-solid fa-arrow-right"></i>
+      </span>
+    </button>
+
+    <!-- Игра 2 -->
+    <button id="btn-game-millionaire" class="game-card rounded-3xl p-8 text-left"
+            style="background: linear-gradient(135deg, #b45309 0%, #92400e 100%); border: 1px solid rgba(255,215,0,.35);">
+      <div class="text-5xl mb-5">💰</div>
+      <h2 class="text-2xl font-extrabold mb-3">Своя игра<br>Интерактивное табло</h2>
+      <p class="text-amber-100/90 text-sm leading-relaxed mb-6">
+        7 тематических категорий, 42 вопроса и номиналы от 100 до 1000 баллов. Выбирайте любую карточку и набирайте максимум очков!
+      </p>
+      <span class="inline-flex items-center gap-2 font-bold text-sm bg-black/20 rounded-full px-5 py-2.5">
+        Играть <i class="fa-solid fa-arrow-right"></i>
+      </span>
+    </button>
+  </div>
+</section>
+
+<!-- ==================== ЭКРАН 2: ВЫБОР СМЕНЫ ==================== -->
+<section id="screen-shift" class="screen min-h-screen flex-col items-center justify-center px-4 py-10">
+  <button class="btn-back absolute top-6 left-6 inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-5 py-2.5 font-semibold transition">
+    <i class="fa-solid fa-arrow-left"></i> Назад в меню
+  </button>
+
+  <h2 class="text-3xl md:text-4xl font-extrabold mb-3 text-center">Выберите смену</h2>
+  <p class="text-slate-300 mb-10 text-center">Факты преподавателей из какой смены будем угадывать?</p>
+
+  <div class="flex flex-col sm:flex-row gap-6 w-full max-w-2xl">
+    <button class="shift-btn flex-1 rounded-3xl p-10 text-center font-extrabold text-2xl"
+            style="background: linear-gradient(135deg, #06b6d4, #2563eb);" data-shift="1 смена">
+      <div class="text-4xl mb-3">☀️</div>
+      1 смена
+      <div class="text-sm font-medium text-blue-100/80 mt-2">13 преподавателей</div>
+    </button>
+    <button class="shift-btn flex-1 rounded-3xl p-10 text-center font-extrabold text-2xl"
+            style="background: linear-gradient(135deg, #f472b6, #9333ea);" data-shift="2 смена">
+      <div class="text-4xl mb-3">🌙</div>
+      2 смена
+      <div class="text-sm font-medium text-pink-100/80 mt-2">12 преподавателей</div>
+    </button>
+  </div>
+</section>
+
+<!-- ==================== ЭКРАН 3: ИГРА «ФАКТЫ» ==================== -->
+<section id="screen-facts" class="screen min-h-screen flex-col items-center px-4 py-8">
+  <div class="w-full max-w-3xl flex items-center justify-between mb-6">
+    <button class="btn-back inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-5 py-2.5 font-semibold transition">
+      <i class="fa-solid fa-arrow-left"></i> Назад в меню
+    </button>
+    <div class="flex items-center gap-3">
+      <span id="facts-shift-badge" class="bg-purple-500/30 border border-purple-400/40 rounded-full px-4 py-2 text-sm font-bold"></span>
+      <span id="facts-score" class="bg-white/10 rounded-full px-4 py-2 text-sm font-bold">Очки: 0</span>
+    </div>
+  </div>
+
+  <div class="w-full max-w-3xl">
+    <div class="flex items-center justify-between text-sm text-slate-300 mb-2">
+      <span>Факт <b id="facts-round-num" class="text-white">1</b> из <b id="facts-round-total" class="text-white"></b></span>
+    </div>
+    <div class="h-2 rounded-full bg-white/10 overflow-hidden mb-6">
+      <div id="facts-progress" class="h-full rounded-full transition-all duration-500" style="width:0%; background: linear-gradient(90deg,#a78bfa,#6366f1);"></div>
+    </div>
+
+    <div class="fact-card rounded-3xl p-8 md:p-10 mb-8 text-center">
+      <div class="text-4xl mb-4">💡</div>
+      <p class="text-xs uppercase tracking-widest text-purple-300 font-bold mb-3">Интересный факт</p>
+      <p id="fact-text" class="text-xl md:text-2xl font-semibold leading-relaxed"></p>
+    </div>
+
+    <p class="text-center text-slate-300 mb-4 font-medium">Кто этот преподаватель?</p>
+    <div id="fact-options" class="grid sm:grid-cols-2 gap-4"></div>
+
+    <div class="text-center mt-8 h-14">
+      <button id="btn-next-fact" class="hidden inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-400 hover:to-indigo-400 rounded-full px-8 py-3.5 font-bold transition shadow-lg shadow-purple-500/30">
+        Следующий факт <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ЭКРАН 4: ФИНИШ «ФАКТОВ» ==================== -->
+<section id="screen-facts-end" class="screen min-h-screen flex-col items-center justify-center px-4 py-10">
+  <div class="fact-card rounded-3xl p-10 md:p-14 text-center max-w-lg w-full">
+    <div id="facts-end-emoji" class="text-7xl mb-5">🏆</div>
+    <h2 class="text-3xl font-extrabold mb-2">Игра окончена!</h2>
+    <p id="facts-end-text" class="text-slate-300 mb-6"></p>
+    <div class="text-6xl font-black mb-8"><span id="facts-final-score" class="text-gold"></span></div>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button id="btn-facts-replay" class="inline-flex justify-center items-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full px-7 py-3 font-bold transition hover:brightness-110">
+        <i class="fa-solid fa-rotate-right"></i> Сыграть снова
+      </button>
+      <button class="btn-back inline-flex justify-center items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-7 py-3 font-bold transition">
+        <i class="fa-solid fa-house"></i> В меню
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ЭКРАН 5: ИГРА 2 — «СВОЯ ИГРА» ==================== -->
+<section id="screen-millionaire" class="screen min-h-screen jeopardy-bg flex-col px-3 md:px-6 py-5 md:py-7">
+  <div class="w-full max-w-7xl mx-auto">
+    <div class="jeopardy-topbar mb-6">
+      <button class="btn-back inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-4 md:px-5 py-2.5 font-semibold transition">
+        <i class="fa-solid fa-arrow-left"></i> <span class="hidden sm:inline">Выйти в меню</span><span class="sm:hidden">Меню</span>
+      </button>
+
+      <div class="text-center px-3">
+        <p class="text-xs md:text-sm uppercase tracking-[.25em] text-amber-300/80 font-bold">Интерактивное табло</p>
+        <h2 class="text-xl md:text-3xl font-black text-gold">СВОЯ ИГРА</h2>
+      </div>
+
+      <div class="flex items-center gap-2 md:gap-3">
+        <div class="jeopardy-score-pill">Очки: <span id="mil-score">0</span></div>
+        <button id="btn-mil-finish" class="hidden sm:inline-flex items-center gap-2 rounded-full px-4 py-2.5 font-bold bg-amber-400 text-slate-950 hover:bg-amber-300 transition">
+          <i class="fa-solid fa-flag-checkered"></i> Завершить
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between gap-4 mb-3 text-sm text-blue-100/80">
+      <span>Открыто: <b id="mil-progress-count" class="text-white">0 / 42</b></span>
+      <button id="btn-mil-finish-mobile" class="sm:hidden text-amber-300 font-bold">Завершить игру</button>
+    </div>
+    <div class="h-2 rounded-full bg-white/10 overflow-hidden mb-5">
+      <div id="mil-board-progress" class="h-full rounded-full transition-all duration-500" style="width:0%"></div>
+    </div>
+
+    <div class="jeopardy-board-wrap">
+      <div id="mil-board" class="jeopardy-board" aria-label="Игровое табло"></div>
+    </div>
+
+    <p class="text-center text-blue-100/60 text-xs md:text-sm mt-4">Выберите любую активную карточку. После ответа она станет недоступной.</p>
+  </div>
+</section>
+
+<!-- ==================== МОДАЛЬНОЕ ОКНО ВОПРОСА ==================== -->
+<div id="mil-question-overlay" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md items-center justify-center px-4 py-6">
+  <div class="jeopardy-question-modal w-full max-w-3xl rounded-3xl p-5 md:p-9">
+    <div class="flex items-start justify-between gap-4 mb-5">
+      <div>
+        <p id="mil-modal-category" class="text-blue-200 text-sm font-semibold mb-1"></p>
+        <p class="text-amber-300 uppercase tracking-widest text-xs font-black">Вопрос на <span id="mil-modal-points"></span> баллов</p>
+      </div>
+      <div id="mil-modal-status" class="text-sm font-bold"></div>
+    </div>
+
+    <div class="jeopardy-question-text rounded-2xl p-5 md:p-7 mb-6">
+      <p id="mil-modal-question" class="text-lg md:text-2xl font-bold leading-relaxed text-center"></p>
+    </div>
+
+    <div id="mil-modal-answers" class="grid md:grid-cols-2 gap-3 md:gap-4"></div>
+    <p id="mil-correct-answer" class="hidden text-center mt-5 text-sm md:text-base font-semibold text-emerald-300"></p>
+  </div>
+</div>
+
+<!-- ==================== ЭКРАН 6: ФИНИШ «СВОЕЙ ИГРЫ» ==================== -->
+<section id="screen-mil-end" class="screen min-h-screen jeopardy-bg flex-col items-center justify-center px-4 py-10">
+  <div class="jeopardy-question-modal max-w-xl w-full rounded-3xl p-8 md:p-12 text-center">
+    <div id="mil-end-emoji" class="text-7xl mb-5">🏆</div>
+    <h2 class="text-3xl md:text-4xl font-black text-gold mb-3">Игра завершена!</h2>
+    <p id="mil-end-text" class="text-blue-100 mb-6"></p>
+    <div class="mb-2 text-sm uppercase tracking-widest text-blue-200/70 font-bold">Итоговый счёт</div>
+    <div id="mil-final-score" class="text-5xl md:text-6xl font-black text-gold mb-8"></div>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button id="btn-mil-replay" class="inline-flex justify-center items-center gap-2 rounded-full px-7 py-3 font-extrabold text-slate-950 transition hover:brightness-110 bg-amber-400">
+        <i class="fa-solid fa-rotate-right"></i> Сыграть снова
+      </button>
+      <button class="btn-back inline-flex justify-center items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-7 py-3 font-bold transition">
+        <i class="fa-solid fa-house"></i> В меню
+      </button>
+    </div>
+  </div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
